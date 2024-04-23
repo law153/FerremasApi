@@ -1,0 +1,6 @@
+
+/FerremasAPI/api/__pycache__
+/FerremasAPI/api/migrations/__pycache__
+*.pyc
+FerremasAPI/api/migrations/__pycache__/__init__.cpython-311.pyc
+FerremasAPI/api/__pycache__/__init__.cpython-311.pyc
