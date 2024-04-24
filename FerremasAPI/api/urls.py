@@ -9,6 +9,7 @@ urlpatterns=[
     path('api/ventas/', views.listaVentasApi.as_view(), name='api-ventas'),
     path('api/detalles/', views.listaDetallesApi.as_view(), name='api-detalles'),
     path('api/compras/', views.listaComprasApi.as_view(), name='api-compras'),
+    path('api/transacciones/', views.listaTransaccionesApi.as_view(), name='api-transacciones'),
     path('api/consultas/', views.listaConsultasApi.as_view(), name='api-consultas'),
     path('api/producto/', views.productoApi.as_view(), name='api-producto'),
     path('api/detallesProducto/', views.listaDetallesProductoApi.as_view(), name='api-detalles-producto'),
@@ -22,4 +23,6 @@ urlpatterns=[
     path('api/venta/<str:id_venta>/', VentaPorIdApi.as_view(), name='venta-por-id'),
     path('api/crear-detalle/', views.CrearDetalleAPI.as_view(), name='crear-detalle'),
     path('api/crear-venta/', views.CrearVentaAPI.as_view(), name='crear-venta'),
+    path('api/transacciones-producto/', views.transaccionesProductoApi.as_view(), name='transacciones-producto'),
+    path('api/stock-producto/', views.StockProductoApi.as_view(), name='stock-producto'),
 ]

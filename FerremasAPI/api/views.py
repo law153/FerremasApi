@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Sum, F
 from .serializers import categoriaSerializer, usuarioSerializer, productoSerializer, consultaSerializer, ventaSerializer, detalleSerializer, detalleCompradoSerializer, detalleConProductoSerializer, transaccionSerializer
 from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion
 
@@ -148,3 +149,30 @@ class CrearVentaAPI(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class listaTransaccionesApi(generics.ListAPIView):
+    queryset = Transaccion.objects.all()
+    serializer_class = transaccionSerializer
+
+class transaccionesProductoApi(APIView):
+    def get(self, request):
+        producto = request.GET.get('producto')
+        print("Código de producto recibido:", producto)  # Impresión para depurar
+
+        transacciones = Transaccion.objects.filter(producto=producto)
+        print("Número de transacciones encontradas:", transacciones.count())  # Impresión para depurar
+
+        serializer = transaccionSerializer(transacciones, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class StockProductoApi(APIView):
+    def get(self, request):
+        producto = request.GET.get('producto')
+
+        stock_agregar = Transaccion.objects.filter(producto=producto, tipo_transaccion='Agregar').aggregate(Sum('cantidad'))['cantidad__sum'] or 0
+        stock_retirar = Transaccion.objects.filter(producto=producto, tipo_transaccion='Retirar').aggregate(Sum('cantidad'))['cantidad__sum'] or 0
+
+        stock_total = stock_agregar - stock_retirar
+
+        return Response({'stock_total': stock_total}, status=status.HTTP_200_OK)
