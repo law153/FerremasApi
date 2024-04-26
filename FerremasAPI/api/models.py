@@ -72,7 +72,7 @@ class Venta(models.Model):
     estado = models.CharField(max_length=30)
     fecha_entrega = models.DateField()
     total = models.IntegerField()
-    carrito = models.BooleanField(verbose_name='0 para venta y 1 para carrito')
+    carrito = models.BooleanField(verbose_name='False para venta y True para carrito')
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 class Detalle(models.Model):
