@@ -6,7 +6,6 @@ from django.db.models import Sum, F
 from .serializers import categoriaSerializer, usuarioSerializer, productoSerializer, consultaSerializer, ventaSerializer, detalleSerializer, detalleCompradoSerializer, detalleConProductoSerializer, transaccionSerializer, rolSerializer
 from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion, Rol
 
-
 # Create your views here.
 class listaCategoriasApi(generics.ListAPIView):
     queryset = Categoria.objects.all()
@@ -161,11 +160,18 @@ class CrearVentaAPI(APIView):
 
 class CrearUsuarioAPI(APIView):
     def post(self, request):
-        serializer = usuarioSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            serializer = usuarioSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            # Registra la excepción para ver detalles en los logs
+            print(f"Error al procesar la solicitud POST: {e}")
+            return Response({"error": "Error interno del servidor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     
 class listaTransaccionesApi(generics.ListAPIView):
     queryset = Transaccion.objects.all()
