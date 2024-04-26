@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Sum, F
-from .serializers import categoriaSerializer, usuarioSerializer, productoSerializer, consultaSerializer, ventaSerializer, detalleSerializer, detalleCompradoSerializer, detalleConProductoSerializer, transaccionSerializer
-from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion
+from .serializers import categoriaSerializer, usuarioSerializer, productoSerializer, consultaSerializer, ventaSerializer, detalleSerializer, detalleCompradoSerializer, detalleConProductoSerializer, transaccionSerializer, rolSerializer
+from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion, Rol
 
 
 # Create your views here.
@@ -52,6 +52,10 @@ class listaConsultasApi(generics.ListAPIView):
 class listaDetallesApi(generics.ListAPIView):
     queryset = Detalle.objects.all()
     serializer_class = detalleSerializer
+
+class listaRolesApi(generics.ListAPIView):
+    queryset = Rol.objects.all()
+    serializer_class = rolSerializer
 
 class DetallePorIdApi(generics.RetrieveUpdateAPIView):
     queryset = Detalle.objects.all()

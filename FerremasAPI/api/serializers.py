@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion
+from .models import Categoria, Consulta, Usuario, Producto, Venta, Detalle,  Detalle_comprado, Transaccion, Rol
 
 class categoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = ['id_categoria','nombre_categoria']
+
+class rolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rol
+        fields = '__all__'
 
 class usuarioSerializer(serializers.ModelSerializer):
     class Meta:
