@@ -21,6 +21,11 @@ class UsuarioPorCorreoApi(generics.RetrieveAPIView):
     serializer_class = usuarioSerializer
     lookup_field = 'correo'
 
+class UsuarioPorRutApi(generics.RetrieveAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = usuarioSerializer
+    lookup_field = 'rut'
+
 class listaProductosApi(generics.ListAPIView):
     serializer_class = productoSerializer
 
