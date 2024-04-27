@@ -88,30 +88,30 @@ class listaComprasApi(generics.ListAPIView):
 
 class FiltrarCarritoAPI(APIView):
     def get(self, request):
-        # Obtener los parámetros de consulta de la URL
+
         usuario = request.GET.get('usuario')
         estado = request.GET.get('estado')
 
-        # Filtrar usuarios basados en los parámetros
+
         carrito = Venta.objects.all()
         if carrito:
             carrito = carrito.filter(usuario=usuario)
         if estado:
             carrito = carrito.filter(estado=estado)
 
-        # Serializar los resultados y devolver la respuesta
+
         serializer = ventaSerializer(carrito, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class DetallesCarritoAPI(APIView):
     def get(self, request):
-        # Obtener el ID de la venta desde los parámetros de la URL
+
         id_venta = request.GET.get('venta')
 
-        # Buscar todos los detalles del carrito basados en el ID de la venta
+
         detalles_carrito = Detalle.objects.filter(venta=id_venta)
 
-        # Serializar los resultados y devolver la respuesta
+
         serializer = detalleConProductoSerializer(detalles_carrito, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -131,15 +131,21 @@ class VentaPorIdApi(generics.RetrieveUpdateAPIView):
 
 class DetallesBuscarCarritoAPI(APIView):
     def get(self, request):
-        # Obtener el ID de la venta y el código del producto desde los parámetros de la URL
+
         id_venta = request.GET.get('venta')
         cod_producto = request.GET.get('producto')
 
-        # Filtrar los detalles del carrito basados en el ID de la venta y el código del producto
+
         detalles_carrito = Detalle.objects.filter(venta=id_venta, producto__cod_prod=cod_producto)
 
-        # Serializar los resultados y devolver la respuesta
         serializer = detalleConProductoSerializer(detalles_carrito, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class BuscarComprasVentaAPI(APIView):
+    def get(self, request):
+        venta_c = request.GET.get('venta_c')
+        compras = Detalle_comprado.objects.filter(venta_c= venta_c)
+        serializer = detalleCompradoSerializer(compras, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CrearDetalleAPI(APIView):
@@ -149,10 +155,26 @@ class CrearDetalleAPI(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class CrearDetalleCompradoAPI(APIView):
+    def post(self, request):
+        serializer = detalleCompradoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
 
 class CrearVentaAPI(APIView):
     def post(self, request):
         serializer = ventaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class CrearTransaccionAPI(APIView):
+    def post(self, request):
+        serializer = transaccionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -168,7 +190,6 @@ class CrearUsuarioAPI(APIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            # Registra la excepción para ver detalles en los logs
             print(f"Error al procesar la solicitud POST: {e}")
             return Response({"error": "Error interno del servidor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
