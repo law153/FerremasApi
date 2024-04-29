@@ -29,6 +29,7 @@ urlpatterns=[
     path('api/crear-venta/', views.CrearVentaAPI.as_view(), name='crear-venta'),
     path('api/crear-usuario/', views.CrearUsuarioAPI.as_view(), name='crear-usuario'),
     path('api/crear-transaccion/', views.CrearTransaccionAPI.as_view(), name='crear-transaccion'),
+    path('api/crear-producto/', views.CrearProductoAPI.as_view(), name='crear-producto'),
     path('api/transacciones-producto/', views.transaccionesProductoApi.as_view(), name='transacciones-producto'),
     path('api/stock-producto/', views.StockProductoApi.as_view(), name='stock-producto'),
 ]
