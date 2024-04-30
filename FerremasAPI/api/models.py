@@ -63,6 +63,7 @@ class Transaccion(models.Model):
     id_transaccion = models.AutoField(primary_key=True)
     tipo_transaccion = models.CharField(max_length=30, verbose_name='agregado o retirado')
     cantidad = models.IntegerField()
+    fecha_transaccion = models.DateField()
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     
 
