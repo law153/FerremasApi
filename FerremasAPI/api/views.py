@@ -103,6 +103,20 @@ class FiltrarCarritoAPI(APIView):
         serializer = ventaSerializer(carrito, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class BuscarVentasEstadoAPI(APIView):
+    def get(self, request):
+
+        estado = request.GET.get('estado')
+
+
+        carrito = Venta.objects.all()
+        if estado:
+            carrito = carrito.filter(estado=estado)
+
+
+        serializer = ventaSerializer(carrito, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class DetallesCarritoAPI(APIView):
     def get(self, request):
 

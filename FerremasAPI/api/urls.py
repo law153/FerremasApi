@@ -18,6 +18,7 @@ urlpatterns=[
     path('api/usuarioC/<str:correo>/', UsuarioPorCorreoApi.as_view(), name='usuario-por-correo'),
     path('api/usuarioR/<str:rut>/', UsuarioPorRutApi.as_view(), name='usuario-por-rut'),
     path('api/filtrar-carrito/', views.FiltrarCarritoAPI.as_view(), name='filtrar-carrito'),
+    path('api/ventas-estado/', views.BuscarVentasEstadoAPI.as_view(), name='ventas-estado'),
     path('api/detalles-carrito/', views.DetallesCarritoAPI.as_view(), name='detalles-carrito'),
     path('api/detalles-id-carrito/', views.DetallesCarritoPorIdAPI.as_view(), name='detalles-id-carrito'),
     path('api/delete-detalle/', views.DeleteDetallePorIdApi.as_view(), name='delete-detalle'),
