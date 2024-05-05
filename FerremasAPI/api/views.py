@@ -186,6 +186,14 @@ class CrearVentaAPI(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class CrearConsultaAPI(APIView):
+    def post(self, request):
+        serializer = consultaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class CrearTransaccionAPI(APIView):
     def post(self, request):
         serializer = transaccionSerializer(data=request.data)
